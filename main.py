@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS biblioteca (
        id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
         autor TEXT,
-        ano INTEGER     
+        ano INTEGER 
+    
 )         
                
 
