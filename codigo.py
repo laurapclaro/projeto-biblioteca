@@ -24,4 +24,19 @@ def listar_livros():
             print(f"ID: {livro[0]} | Título: {livro[1]} | Autor: {livro[2]} | Ano: {livro[3]}")
 
 def adicionar_livros():
-    
+    nome = input("Digite o titulo oficial do livro: ")
+    autor = input("Digite o nome oficial do autor da obra: ")
+    ano = int(input("Digite o ano que a obra foi lançada:"))
+            
+    cursor.execute("""
+    INSERT INTO alunos (nome, autor, ano)          
+    VALUES (?, ?, ?)           
+                
+    """, 
+    (nome, autor, ano) )
+
+
+
+def atualizar_livros():
+    conexao.commit()
+print("Dados onseridos com sucesso!")
