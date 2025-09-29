@@ -33,3 +33,5 @@ VALUES (?, ?, ?)
 
 conexao.commit()
 conexao.close()
+
+
