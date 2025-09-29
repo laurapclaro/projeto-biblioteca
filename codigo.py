@@ -11,7 +11,7 @@ def menu():
     print("4 - Remover livro")
     print("5 - Sair")
 
-#LISTANDO LIVROS
+# LISTANDO LIVROS
 def listar_livros():
     cursor.execute("SELECT * FROM livros")
     livros = cursor.fetchall()
@@ -23,64 +23,81 @@ def listar_livros():
         for livro in livros:
             print(f"ID: {livro[0]} | Título: {livro[1]} | Autor: {livro[2]} | Ano: {livro[3]}")
 
-
-#ADICIONANDO LIVROS
+# ADICIONANDO LIVROS
 def adicionar_livros():
     nome = input("Digite o titulo oficial do livro: ")
     autor = input("Digite o nome oficial do autor da obra: ")
-    ano = int(input("Digite o ano que a obra foi lançada:"))
+    ano = int(input("Digite o ano que a obra foi lançada: "))
             
+    # Corrigido: inserir na tabela 'livros' (antes 'alunos')
     cursor.execute("""
-    INSERT INTO alunos (nome, autor, ano)          
+    INSERT INTO livros (nome, autor, ano)          
     VALUES (?, ?, ?)           
-                
-    """, 
-    (nome, autor, ano) )
+    """, (nome, autor, ano) )
+    conexao.commit()  # faltava o commit para salvar
 
-
-#ATUALIZANDO LIVROS
+# ATUALIZANDO LIVROS
 def atualizar_livros():
+    # Função incompleta, adiciono um exemplo simples
+    listar_livros()
+    id_livro = int(input("Digite o ID do livro que deseja atualizar: "))
+    novo_nome = input("Novo título do livro: ")
+    novo_autor = input("Novo autor do livro: ")
+    novo_ano = int(input("Novo ano de lançamento: "))
+    
+    cursor.execute("""
+    UPDATE livros SET nome = ?, autor = ?, ano = ? WHERE id = ?
+    """, (novo_nome, novo_autor, novo_ano, id_livro))
     conexao.commit()
-print("Dados inseridos com sucesso!")
+    print("Dados atualizados com sucesso!")
 
-
-#REMOVENDO LIVROS
-def remover_livros(id_biblioteca):
+# REMOVENDO LIVROS
+def remover_livros():
+    listar_livros()
+    id_biblioteca = int(input("Digite o ID do livro para deletar: "))
     try:
-        conexao = sqlite3.connect("biblioteca.db")
-        cursor = conexao.cursor()
-
-        cursor.execute("DELETE FROM biblioteca WHERE id = ?", (id_biblioteca,))
-
+        # corrigido: deletar da tabela 'livros' (antes 'biblioteca')
+        cursor.execute("DELETE FROM livros WHERE id = ?", (id_biblioteca,))
         conexao.commit()
 
         if cursor.rowcount > 0:
             print("Livro removido!")
         else: 
-            print("Tente novamente!")
+            print("ID não encontrado, tente novamente!")
 
     except Exception as erro:
-        print(f"Erro ao tentar excluir livro{erro}")
+        print(f"Erro ao tentar excluir livro: {erro}")
 
-    finally:
-        if conexao:
-            conexao.close()
+def sair_menu():
+    print("Obrigado pela visita!!")
+    conexao.close()
+    exit()
 
-deletar = int(input("Digite o id para deletar: "))
-remover_livros(deletar)
-
-
-
-#MENU INTERATIVO
-opcao = int(input("Digite uma opção do menu: "))
-id = []
+# MENU INTERATIVO
 print("Bem-vindo ao nosso sistema!")
-while True:
-    print ("1.Listar Livros")
-    print("2.Adicionar Livros")
-    print("3.Atualizar Livros")
-    print("4.Remover um Livro")
-    print("5.Sair do sistema\n")
 
+while True:
+    menu()
+    try:
+        opcao = int(input("Digite uma opção do menu: "))
+    except ValueError:
+        print("Por favor, digite um número válido!")
+        continue
 
     if opcao == 1:
+        listar_livros()
+
+    elif opcao == 2:
+        adicionar_livros()
+
+    elif opcao == 3:
+        atualizar_livros()
+
+    elif opcao == 4:
+        remover_livros()
+     
+    elif opcao == 5:
+        sair_menu()
+
+    else:
+        print("Opção inválida!")

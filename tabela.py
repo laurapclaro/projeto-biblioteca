@@ -6,11 +6,13 @@ cursor.execute("""
   CREATE TABLE IF NOT EXISTS Clientes(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     Nome TEXT NOT NULL,
+    Telefone TEXT NOT NULL,
+    Email TEXT NOT NULL        
                
-               
-               
-               )              
+);             
                
                
                
                """)
+cursor.close
+print("Tabela criada")
