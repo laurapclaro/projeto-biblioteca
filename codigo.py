@@ -13,7 +13,7 @@ def menu():
 
 # LISTANDO LIVROS
 def listar_livros():
-    cursor.execute("SELECT * FROM livros")
+    cursor.execute("SELECT * FROM biblioteca")
     livros = cursor.fetchall()
 
     if not livros:
@@ -31,7 +31,7 @@ def adicionar_livros():
             
     # Corrigido: inserir na tabela 'livros' (antes 'alunos')
     cursor.execute("""
-    INSERT INTO livros (nome, autor, ano)          
+    INSERT INTO biblioteca (nome, autor, ano)          
     VALUES (?, ?, ?)           
     """, (nome, autor, ano) )
     conexao.commit()  # faltava o commit para salvar
@@ -46,7 +46,7 @@ def atualizar_livros():
     novo_ano = int(input("Novo ano de lançamento: "))
     
     cursor.execute("""
-    UPDATE livros SET nome = ?, autor = ?, ano = ? WHERE id = ?
+    UPDATE biblioteca SET nome = ?, autor = ?, ano = ? WHERE id = ?
     """, (novo_nome, novo_autor, novo_ano, id_livro))
     conexao.commit()
     print("Dados atualizados com sucesso!")
@@ -56,8 +56,8 @@ def remover_livros():
     listar_livros()
     id_biblioteca = int(input("Digite o ID do livro para deletar: "))
     try:
-        # corrigido: deletar da tabela 'livros' (antes 'biblioteca')
-        cursor.execute("DELETE FROM livros WHERE id = ?", (id_biblioteca,))
+        
+        cursor.execute("DELETE FROM biblioteca WHERE id = ?", (id_biblioteca,))
         conexao.commit()
 
         if cursor.rowcount > 0:
