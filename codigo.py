@@ -11,7 +11,7 @@ def menu():
     print("4 - Remover livro")
     print("5 - Sair")
 
-
+#LISTANDO LIVROS
 def listar_livros():
     cursor.execute("SELECT * FROM livros")
     livros = cursor.fetchall()
@@ -23,6 +23,8 @@ def listar_livros():
         for livro in livros:
             print(f"ID: {livro[0]} | Título: {livro[1]} | Autor: {livro[2]} | Ano: {livro[3]}")
 
+
+#ADICIONANDO LIVROS
 def adicionar_livros():
     nome = input("Digite o titulo oficial do livro: ")
     autor = input("Digite o nome oficial do autor da obra: ")
@@ -36,13 +38,13 @@ def adicionar_livros():
     (nome, autor, ano) )
 
 
-
+#ATUALIZANDO LIVROS
 def atualizar_livros():
     conexao.commit()
-print("Dados onseridos com sucesso!")
+print("Dados inseridos com sucesso!")
 
 
-
+#REMOVENDO LIVROS
 def remover_livros(id_biblioteca):
     try:
         conexao = sqlite3.connect("biblioteca.db")
@@ -66,3 +68,19 @@ def remover_livros(id_biblioteca):
 
 deletar = int(input("Digite o id para deletar: "))
 remover_livros(deletar)
+
+
+
+#MENU INTERATIVO
+opcao = int(input("Digite uma opção do menu: "))
+id = []
+print("Bem-vindo ao nosso sistema!")
+while True:
+    print ("1.Listar Livros")
+    print("2.Adicionar Livros")
+    print("3.Atualizar Livros")
+    print("4.Remover um Livro")
+    print("5.Sair do sistema\n")
+
+
+    if opcao == 1:
